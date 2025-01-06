@@ -54,7 +54,8 @@ def main():
                 return
 
         screen.fill("black")
-
+        text_surface = my_font.render(f'SCORE: {score}', False, (255,255,255))
+        screen.blit(text_surface,(0,0))
         for obj in drawable:
             obj.draw(screen)
         #Remove the upper fill and turn this on to make an etch a sketch
