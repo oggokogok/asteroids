@@ -3,6 +3,7 @@ from constants import *
 from player import Player
 from asteroid import Asteroid
 from asteroidfield import AsteroidField
+from shot import Shot
 
 def main():
     #initializing pygame, needed for following bits
@@ -15,11 +16,13 @@ def main():
     asteroids = pygame.sprite.Group()
     updatable = pygame.sprite.Group()
     drawable = pygame.sprite.Group()
+    shots = pygame.sprite.Group()
 
     #Adding items to the groups to be able to act upon them direction
     AsteroidField.containers = (updatable)
     Asteroid.containers = (asteroids,updatable,drawable)
     Player.containers = (updatable, drawable)
+    Shot.containers = (shots,updatable,drawable)
     clock = pygame.time.Clock()
     player = Player(int(SCREEN_WIDTH / 2), int(SCREEN_HEIGHT / 2))
     ast_field = AsteroidField()
@@ -34,6 +37,10 @@ def main():
             obj.update(dt)
         
         for obj in asteroids:
+            for bullet in shots:
+                if obj.collision(bullet) == True:
+                    obj.kill()
+                    bullet.kill()
             if obj.collision(player) == True:
                 print('Game over!')
                 return
