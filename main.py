@@ -8,9 +8,14 @@ from shot import Shot
 def main():
     #initializing pygame, needed for following bits
     pygame.init()
+    pygame.font.init()
+    my_font = pygame.font.SysFont('Arial',30)
 
     #creating the display area
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+
+    #creating score variable
+    score = 0
 
     #Creating groups which will be iterated on directly
     asteroids = pygame.sprite.Group()
@@ -31,6 +36,7 @@ def main():
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
+                print(f'you scored {score} points')
                 return
         #Call groups directly, not through player 
         for obj in updatable:
@@ -39,10 +45,12 @@ def main():
         for obj in asteroids:
             for bullet in shots:
                 if obj.collision(bullet) == True:
+                    score += 1
                     obj.split()
                     bullet.kill()
             if obj.collision(player) == True:
                 print('Game over!')
+                print(f'you scored {score} points')
                 return
 
         screen.fill("black")
