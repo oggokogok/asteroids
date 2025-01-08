@@ -6,7 +6,8 @@ import random
 class Asteroid(CircleShape):
     def __init__(self, x, y, radius):
         super().__init__(x, y, radius)
-    
+ #Adding a line to change the file
+ #    
     def draw(self,screen):
         #self.position was needed as the x and y don't exist by themselves, position is created in circleshape
         pygame.draw.circle(screen,"white",self.position,self.radius,2)
