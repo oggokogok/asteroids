@@ -52,7 +52,7 @@ def main():
                 print('Game over!')
                 print(f'you scored {score} points')
                 return
-s
+
         screen.fill("black")
         text_surface = my_font.render(f'SCORE: {score}', False, (255,255,255))
         screen.blit(text_surface,(0,0))
