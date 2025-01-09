@@ -27,6 +27,15 @@ class Player(CircleShape):
     def move(self,dt):
         forward = pygame.Vector2(0, 1).rotate(self.rotation)
         self.position += forward * PLAYER_SPEED * dt
+        if self.position[0] <= 0:
+            self.position = [SCREEN_WIDTH,self.position[1]]
+        elif self.position[0] >= SCREEN_WIDTH:
+            self.position = [0,self.position[1]]
+        elif self.position[1] <= 0:
+            self.position = [self.position[0],SCREEN_HEIGHT]
+        elif self.position[1] >= SCREEN_HEIGHT:
+            self.position = [self.position[0],0]
+        print(self.position[0])
 
     def shoot(self):
         if self.cooldown <= 0:
