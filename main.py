@@ -1,11 +1,14 @@
 import pygame
+import shelve
 from constants import *
 from player import Player
 from asteroid import Asteroid
 from asteroidfield import AsteroidField
 from shot import Shot
+import shelve
 
 def main():
+
     #initializing pygame, needed for following bits
     pygame.init()
     pygame.font.init()
@@ -16,6 +19,14 @@ def main():
 
     #creating score variable
     score = 0
+
+    #creating highscore variable
+    highscore = 0
+
+    #Reading the file
+    d = shelve.open('score.txt')
+    highscore = d['score']
+    d.close()
 
     #Creating groups which will be iterated on directly
     asteroids = pygame.sprite.Group()
@@ -37,25 +48,35 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 print(f'you scored {score} points')
+                d = shelve.open('score.txt')
+                d['score'] = highscore
+                d.close()
                 return
         #Call groups directly, not through player 
         for obj in updatable:
-            obj.update(dt)
+            obj.update(dt,score)
         
         for obj in asteroids:
             for bullet in shots:
                 if obj.collision(bullet) == True:
                     score += 1
+                    if score >= highscore:
+                        highscore = score
                     obj.split()
                     bullet.kill()
             if obj.collision(player) == True:
                 print('Game over!')
                 print(f'you scored {score} points')
+                d = shelve.open('score.txt')
+                d['score'] = highscore
+                d.close()
                 return
 
         screen.fill("black")
         text_surface = my_font.render(f'SCORE: {score}', False, (255,255,255))
         screen.blit(text_surface,(0,0))
+        high_surface = my_font.render(f'HIGH SCORE: {highscore}',False,'white')
+        screen.blit(high_surface,(0,40))
         for obj in drawable:
             obj.draw(screen)
         #Remove the upper fill and turn this on to make an etch a sketch
