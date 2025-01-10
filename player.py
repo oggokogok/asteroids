@@ -35,7 +35,7 @@ class Player(CircleShape):
             self.position = [self.position[0],SCREEN_HEIGHT]
         elif self.position[1] >= SCREEN_HEIGHT:
             self.position = [self.position[0],0]
-        print(self.position[0])
+
 
     def shoot(self):
         if self.cooldown <= 0:
